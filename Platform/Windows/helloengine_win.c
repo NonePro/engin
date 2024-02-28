@@ -1,8 +1,12 @@
+// clang -l user32.lib helloengine_win.c
 // include the basic windows header file
 #include <windows.h>
 #include <windowsx.h>
 #include <tchar.h>
 
+// 因为用到了gdi32.lib clang会找不着依赖。建议在vscode里使用
+// cl user32.lib gdi32.lib heeloengine_win.c 来编译
+// 毕竟windown平台不是我们的重点，目标只是了解，使用OPENGL跨平台方案才是我们最终的目标
 // the WindowProc function prototype
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -57,7 +61,18 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     // sort through and find what code to run for the message given
     switch (message)
     {
-        // this message is read when the window is closed
+    case WM_PAINT:
+    {
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hWnd, &ps);
+        RECT rec = {20, 20, 60, 80};
+        HBRUSH brush = (HBRUSH)GetStockObject(BLACK_BRUSH);
+
+        FillRect(hdc, &rec, brush);
+        EndPaint(hWnd, &ps);
+    }
+    break;
+    // this message is read when the window is closed
     case WM_DESTROY:
     {
         // close the application entirely
