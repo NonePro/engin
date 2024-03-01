@@ -1,4 +1,4 @@
-// clang -l user32.lib helloengine_win.c
+// clang -l user32.lib -l ole32.lib -l d2d1.lib -o helloengine_d2d.exe helloengine_d2d.cpp
 // include the basic windows header file
 #include <windows.h>
 #include <windowsx.h>
